@@ -13,7 +13,7 @@ if [ "$mode" = "1" ]; then
     python3 bruteforce.py --mode server
 elif [ "$mode" = "2" ]; then
     echo "Starting Attacker..."
-    python3 bruteforce.py --mode attack
+    python3 bruteforce.py --mode attack --wordlist wordlist.txt
 else
     echo "Invalid choice. Showing help instead..."
     python3 bruteforce.py --help

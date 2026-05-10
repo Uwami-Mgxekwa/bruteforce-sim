@@ -12,7 +12,7 @@ if ($mode -eq '1') {
     python bruteforce.py --mode server
 } elseif ($mode -eq '2') {
     Write-Host "Starting Attacker..."
-    python bruteforce.py --mode attack
+    python bruteforce.py --mode attack --wordlist wordlist.txt
 } else {
     Write-Host "Invalid choice. Showing help instead..."
     python bruteforce.py --help

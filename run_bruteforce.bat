@@ -13,7 +13,7 @@ if "%mode%"=="1" (
     python bruteforce.py --mode server
 ) else if "%mode%"=="2" (
     echo Starting Attacker...
-    python bruteforce.py --mode attack
+    python bruteforce.py --mode attack --wordlist wordlist.txt
 ) else (
     echo Invalid choice. Showing help instead...
     python bruteforce.py --help

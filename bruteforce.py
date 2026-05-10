@@ -23,10 +23,10 @@ except ImportError:
 
 SERVER_HOST    = "127.0.0.1"
 SERVER_PORT    = 9999
-MAX_ATTEMPTS   = 5          
-LOCKOUT_TIME   = 30         
-RATE_LIMIT     = 1.0       
-DEFAULT_DELAY  = 0.1       
+MAX_ATTEMPTS   = 5000       # Increased so it rarely locks out
+LOCKOUT_TIME   = 5          # Reduced lockout time to 5s
+RATE_LIMIT     = 0.0        # Removed server rate limit so attacks run instantly
+DEFAULT_DELAY  = 0.0        # Removed attacker delay
 
 FAKE_USER_DB = {
     "admin":  hashlib.sha256("password123".encode()).hexdigest(),
