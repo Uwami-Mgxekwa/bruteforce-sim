@@ -256,20 +256,20 @@ class BruteForcer:
             self.generate_html_report(duration, None)
 
     def generate_html_report(self, duration, password):
-        glow_color = "#ef4444" if password else "#10b981"
+        status_color = "#ef4444" if password else "#10b981"
         status_text = "SYSTEM VULNERABLE" if password else "SYSTEM SECURE"
         
         if password:
             password_html = f'''
-            <div class="card" style="grid-column: 1 / -1; margin-bottom: 3rem; border-color: var(--danger); background: rgba(239, 68, 68, 0.1);">
-                <div class="card-title" style="color: var(--danger)">CRITICAL VULNERABILITY: Password Discovered</div>
-                <div class="card-value" style="font-family: monospace; font-size: 2.5rem;">{password}</div>
+            <div class="card" style="grid-column: 1 / -1; margin-bottom: 2rem; border-color: {status_color};">
+                <div class="card-title" style="color: {status_color}">CRITICAL VULNERABILITY: Password Discovered</div>
+                <div class="card-value" style="font-family: monospace; font-size: 2.5rem; color: {status_color};">{password}</div>
             </div>'''
             explanation_text = "The scan successfully discovered the account password. This indicates that the system is <strong>highly vulnerable</strong> to brute force attacks. An attacker could easily gain unauthorized access.<br><br><strong>Recommendation:</strong> Enforce stronger password policies and improve defensive measures like stricter rate limiting or account lockouts."
         else:
             password_html = f'''
-            <div class="card" style="grid-column: 1 / -1; margin-bottom: 3rem; border-color: var(--success); background: rgba(16, 185, 129, 0.1);">
-                <div class="card-title" style="color: var(--success)">Result</div>
+            <div class="card" style="grid-column: 1 / -1; margin-bottom: 2rem; border-color: {status_color};">
+                <div class="card-title" style="color: {status_color}">Result</div>
                 <div class="card-value" style="font-size: 1.5rem">No password found in the provided wordlist.</div>
             </div>'''
             defense_note = " Active defenses like rate limiting or account lockouts were triggered, which effectively slowed down the attack." if (self.rate_limits_hit > 0 or self.lockouts_hit > 0) else ""
@@ -280,106 +280,124 @@ class BruteForcer:
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cyber Security Scan Report</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <title>Security Scan Report</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
         :root {{
-            --bg-color: #0f172a;
-            --card-bg: rgba(30, 41, 59, 0.7);
-            --primary: #3b82f6;
-            --success: #10b981;
-            --danger: #ef4444;
+            --bg-color: #fafafa;
+            --text-main: #171717;
+            --text-muted: #737373;
+            --card-bg: #ffffff;
+            --border: #e5e5e5;
             --warning: #f59e0b;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
+        }}
+        @media (prefers-color-scheme: dark) {{
+            :root {{
+                --bg-color: #0a0a0a;
+                --text-main: #f5f5f5;
+                --text-muted: #a3a3a3;
+                --card-bg: #171717;
+                --border: #262626;
+            }}
         }}
         * {{ box-sizing: border-box; margin: 0; padding: 0; }}
         body {{
-            font-family: 'Outfit', sans-serif;
+            font-family: 'Inter', sans-serif;
             background-color: var(--bg-color);
             color: var(--text-main);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 2rem;
-            position: relative;
-            overflow-x: hidden;
-        }}
-        .blob {{
-            position: absolute;
-            filter: blur(80px);
-            z-index: -1;
-            opacity: 0.5;
-            animation: float 10s infinite alternate;
-        }}
-        .blob-1 {{ top: -10%; left: -10%; width: 400px; height: 400px; background: var(--primary); border-radius: 50%; }}
-        .blob-2 {{ bottom: -10%; right: -10%; width: 500px; height: 500px; background: {glow_color}; border-radius: 50%; animation-delay: -5s; }}
-        @keyframes float {{
-            0% {{ transform: translate(0, 0) scale(1); }}
-            100% {{ transform: translate(50px, 50px) scale(1.1); }}
+            padding: 3rem 1.5rem;
+            line-height: 1.5;
         }}
         .container {{
-            max-width: 900px;
+            max-width: 800px;
             width: 100%;
-            background: var(--card-bg);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 24px;
-            padding: 3rem;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            animation: slideUp 0.8s ease-out;
-            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
         }}
-        @keyframes slideUp {{
-            from {{ opacity: 0; transform: translateY(30px); }}
-            to {{ opacity: 1; transform: translateY(0); }}
+        .header {{
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 2rem;
         }}
-        .header {{ text-align: center; margin-bottom: 3rem; }}
-        .header h1 {{ font-size: 3rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 1.5rem; text-transform: uppercase; }}
-        .status-badge {{
-            display: inline-block;
-            padding: 0.5rem 1.5rem;
-            border-radius: 9999px;
+        .header h1 {{
+            font-size: 2rem;
             font-weight: 600;
-            font-size: 1.1rem;
-            letter-spacing: 1px;
-            box-shadow: 0 0 20px {glow_color};
-            background: {glow_color}22;
-            color: {glow_color};
-            border: 1px solid {glow_color};
-            animation: pulse 2s infinite;
+            letter-spacing: -0.02em;
         }}
-        @keyframes pulse {{
-            0% {{ box-shadow: 0 0 10px {glow_color}88; }}
-            50% {{ box-shadow: 0 0 30px {glow_color}; }}
-            100% {{ box-shadow: 0 0 10px {glow_color}88; }}
+        .status-badge {{
+            align-self: flex-start;
+            padding: 0.35rem 1rem;
+            border-radius: 4px;
+            font-weight: 500;
+            font-size: 0.875rem;
+            letter-spacing: 0.05em;
+            background-color: {status_color}15;
+            color: {status_color};
+            border: 1px solid {status_color}40;
         }}
-        .grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }}
+        .grid {{
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }}
         .card {{
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 16px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
             padding: 1.5rem;
-            transition: transform 0.3s ease, background 0.3s ease;
         }}
-        .card:hover {{ transform: translateY(-5px); background: rgba(255,255,255,0.08); }}
-        .card-title {{ font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; }}
-        .card-value {{ font-size: 1.8rem; font-weight: 600; }}
+        .card-title {{
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }}
+        .card-value {{
+            font-size: 1.5rem;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+        }}
         .explanation {{
-            background: rgba(0,0,0,0.2);
-            border-left: 4px solid {glow_color};
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--text-muted);
             padding: 1.5rem;
-            border-radius: 0 12px 12px 0;
-            font-size: 1.1rem;
-            line-height: 1.6;
+            border-radius: 4px 8px 8px 4px;
+            font-size: 0.95rem;
         }}
-        .explanation h3 {{ margin-bottom: 0.5rem; color: #fff; }}
+        .explanation h3 {{
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }}
+        .footer {{
+            margin-top: 4rem;
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            padding-top: 2rem;
+        }}
+        .footer a {{
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 500;
+        }}
+        .footer a:hover {{
+            text-decoration: underline;
+        }}
     </style>
 </head>
 <body>
-    <div class="blob blob-1"></div>
-    <div class="blob blob-2"></div>
     <div class="container">
         <div class="header">
             <h1>Security Scan Report</h1>
@@ -419,6 +437,10 @@ class BruteForcer:
             <h3>What does this mean?</h3>
             <p>{explanation_text}</p>
         </div>
+
+        <footer class="footer">
+            Powered by <a href="https://brelinx.com" target="_blank">brelinx.com</a>
+        </footer>
     </div>
 </body>
 </html>"""
