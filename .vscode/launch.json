@@ -1,0 +1,24 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run Port Scanner",
+            "type": "debugpy",
+            "request": "launch",
+            "program": "${workspaceFolder}/bruteforce.py",
+            "args": [
+                "--target",
+                "127.0.0.1",
+                "--start",
+                "1",
+                "--end",
+                "1024",
+                "--threads",
+                "100",
+                "--timeout",
+                "1.0"
+            ],
+            "console": "integratedTerminal"
+        }
+    ]
+}

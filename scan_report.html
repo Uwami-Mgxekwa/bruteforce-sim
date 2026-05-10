@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Security Scan Report</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --primary: #3b82f6;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+        .blob {
+            position: absolute;
+            filter: blur(80px);
+            z-index: -1;
+            opacity: 0.5;
+            animation: float 10s infinite alternate;
+        }
+        .blob-1 { top: -10%; left: -10%; width: 400px; height: 400px; background: var(--primary); border-radius: 50%; }
+        .blob-2 { bottom: -10%; right: -10%; width: 500px; height: 500px; background: #10b981; border-radius: 50%; animation-delay: -5s; }
+        @keyframes float {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(50px, 50px) scale(1.1); }
+        }
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 3rem;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: slideUp 0.8s ease-out;
+            z-index: 10;
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .header { text-align: center; margin-bottom: 3rem; }
+        .header h1 { font-size: 3rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 1.5rem; text-transform: uppercase; }
+        .status-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+            box-shadow: 0 0 20px #10b981;
+            background: #10b98122;
+            color: #10b981;
+            border: 1px solid #10b981;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 10px #10b98188; }
+            50% { box-shadow: 0 0 30px #10b981; }
+            100% { box-shadow: 0 0 10px #10b98188; }
+        }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 3rem; }
+        .card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+        .card:hover { transform: translateY(-5px); background: rgba(255,255,255,0.08); }
+        .card-title { font-size: 0.9rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; }
+        .card-value { font-size: 1.8rem; font-weight: 600; }
+        .explanation {
+            background: rgba(0,0,0,0.2);
+            border-left: 4px solid #10b981;
+            padding: 1.5rem;
+            border-radius: 0 12px 12px 0;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        .explanation h3 { margin-bottom: 0.5rem; color: #fff; }
+    </style>
+</head>
+<body>
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="container">
+        <div class="header">
+            <h1>Security Scan Report</h1>
+            <div class="status-badge">SYSTEM SECURE</div>
+        </div>
+        
+        <div class="grid">
+            <div class="card">
+                <div class="card-title">Target System</div>
+                <div class="card-value">127.0.0.1:9999</div>
+            </div>
+            <div class="card">
+                <div class="card-title">Target Account</div>
+                <div class="card-value">admin</div>
+            </div>
+            <div class="card">
+                <div class="card-title">Passwords Tested</div>
+                <div class="card-value">30</div>
+            </div>
+            <div class="card">
+                <div class="card-title">Time Elapsed</div>
+                <div class="card-value">64.15s</div>
+            </div>
+            <div class="card">
+                <div class="card-title">Rate Limits Hit</div>
+                <div class="card-value" style="color: var(--warning)">0</div>
+            </div>
+            <div class="card">
+                <div class="card-title">Lockouts Triggered</div>
+                <div class="card-value" style="color: var(--warning)">0</div>
+            </div>
+        </div>
+
+        
+            <div class="card" style="grid-column: 1 / -1; margin-bottom: 3rem; border-color: var(--success); background: rgba(16, 185, 129, 0.1);">
+                <div class="card-title" style="color: var(--success)">Result</div>
+                <div class="card-value" style="font-size: 1.5rem">No password found in the provided wordlist.</div>
+            </div>
+
+        <div class="explanation">
+            <h3>What does this mean?</h3>
+            <p>The scan could not guess the password. The system demonstrated resilience against the attempted brute force attack.<br><br><strong>Recommendation:</strong> Continue to monitor login attempts and ensure users maintain strong, unpredictable passwords.</p>
+        </div>
+    </div>
+</body>
+</html>
